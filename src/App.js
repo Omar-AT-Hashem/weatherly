@@ -11,22 +11,25 @@ function App() {
   let [fiveDaysForecast, setFiveDaysForecast] = useState([])
   let [apiLoad, setApiLoad] = useState(false)
   let [apiLoadDone, setApiLoadDone] = useState(false)
+
   
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
-  let handleCitySelect = (city, countryCode) =>{
+  let handleCitySelect = (city, countryCode, lat, lon) =>{
   setSelectedCity({
                     city: city,
-                    countryCode: countryCode
+                    countryCode: countryCode,
+                    lat: lat,
+                    lon: lon
                     })
   setApiLoad(true)
   setApiLoadDone(false)
   } 
 
 
-  let weatherApiCall = (city, countryCode) => {
+  let weatherApiCall = () => {
     try{
-      fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city},${countryCode}&units=metric&appid=${WEATHER_API_KEY}`)
+      fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${selectedCity.lat}&lon=${selectedCity.lon}&units=metric&appid=${WEATHER_API_KEY}`)
       .then((response) => response.json())
       .then((data) => {
          setSelectedCity((prevSelectedCity) =>{ 
@@ -34,11 +37,11 @@ function App() {
         })
          console.log(data)
          setApiLoad(false)
-         setApiLoadDone(true)
+          setApiLoadDone(true) 
       })
    
   } catch(err){
-    console.log(err)
+    console.log(err);
   }
 }
 
@@ -54,10 +57,12 @@ let  fiveDaysForecastAssembler = (arrayLenght) => {
     let hour = info.dt_txt.split(" ")[1]
     let isFound = false;
 
+
     let {main, weather} = info
       if(i === 0){
         arrayOfDays.push({
           day: "today",
+          date: `${date.getDate()}/${date.getMonth()}`,
           time: hour,
           temp: main.temp,
           feelsLike: main.feels_like,
@@ -75,6 +80,7 @@ let  fiveDaysForecastAssembler = (arrayLenght) => {
       if(!isFound && (hour === "12:00:00")){
         arrayOfDays.push({
           day: days[day],
+          date: `${date.getDate()}/${date.getMonth()}`,
           time: hour,
           temp: main.temp,
           feelsLike: main.feels_like,
@@ -85,24 +91,35 @@ let  fiveDaysForecastAssembler = (arrayLenght) => {
         
       }
   }
-  setFiveDaysForecast(arrayOfDays)
-
-  let displayCardsGenerator = () => {
-    
-  }
- 
+  setFiveDaysForecast(arrayOfDays)    
 }
 console.log(fiveDaysForecast);
-  
-  
 
+let displayCardsGenerator = () => {
+  let cards = fiveDaysForecast.map((element) => {
+    return (
+        <DisplayCard 
+          day={element.day}
+          time={element.time}
+          date={element.date}
+          temp={element.temp}
+          feelsLike={element.feelsLike}
+          humidity={element.humidity}
+          weather={element.weather}
+          icon={element.icon}
+        />
+    )
+  })
+  return cards
+}
+    
   useEffect(() => {
-    if(apiLoad){
-      weatherApiCall(selectedCity.city, selectedCity.countryCode)
-    }
-    if(apiLoadDone){
-      fiveDaysForecastAssembler(selectedCity.weatherApiData.list.length)
-    }
+      if(apiLoad){
+        weatherApiCall()
+      }
+      if(apiLoadDone){
+        fiveDaysForecastAssembler(selectedCity.weatherApiData.list.length)
+      }
   }
   ,[apiLoad, apiLoadDone])
 
@@ -112,10 +129,7 @@ console.log(fiveDaysForecast);
       <Header />
       <SearchBar onCitySelect={handleCitySelect} />
       <div className='display-cards-container'>
-        <DisplayCard />
-        <DisplayCard />
-        <DisplayCard />
-        <DisplayCard />
+        {displayCardsGenerator()}
       </div>
     </>
   );

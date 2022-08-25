@@ -1,10 +1,14 @@
 
 import './DisplayCard.css'
 
-const DisplayCard = () => {
+
+const DisplayCard = (props) => {
     return (
         <div className="display-card">
-            <p>This is a display card</p>
+            <div className='segmentOne'>
+                <div className='day-and-date'>{props.day}, {props.date}</div>
+                <img className='weather-icon' src={`/images/${props.icon}.png`} alt=""/>
+            </div>
         </div>
     )
 }

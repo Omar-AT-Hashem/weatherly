@@ -18,7 +18,14 @@ const SearchBar = ({onCitySelect}) => {
                     className='result'
                     data-city={element.city}
                     data-country-code={element.countryCode}
-                    onClick={(e) => onCitySelect(e.target.dataset.city, e.target.dataset.countryCode )}
+                    data-lat={element.latitude}
+                    data-lon={element.longitude}
+                    onClick={(e) => onCitySelect(
+                         e.target.dataset.city,
+                         e.target.dataset.countryCode,
+                         e.target.dataset.lat,
+                         e.target.dataset.lon
+                         )}
                     >
                         {element.city}, {element.countryCode}
                     </div>
@@ -32,7 +39,7 @@ const SearchBar = ({onCitySelect}) => {
     useEffect(() => {
         if(currentSearch){
             let callGeoApi = () => {
-                fetch(`${GEO_DB_API_URL}/cities?namePrefix=${currentSearch}&minPopulation=200000`, GEO_DB_API_OPTIONS)
+                fetch(`${GEO_DB_API_URL}/cities?namePrefix=${currentSearch}&minPopulation=1000000`, GEO_DB_API_OPTIONS)
                 .then(response => response.json())
                 .then(data => setCurrentSearchResult(data.data?.filter(
                     element => element.city.toLowerCase().includes(currentSearch.toLowerCase())

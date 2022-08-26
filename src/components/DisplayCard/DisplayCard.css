@@ -1,9 +1,12 @@
 .display-card{
-    width: 800px;
-    height: 120px;
+    width: 900px;
+    height: 160px;
     background-color: var(--secondary-color);
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 20%);
     border-bottom: 1px solid var(--misc-color);
+    display: flex;
+    justify-content: space-between;
+    
 }
 
 .display-card:first-child{
@@ -14,4 +17,56 @@
 .display-card:last-child{
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+}
+
+.icon-day-date-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    padding-left: 30px;
+}
+
+.day-and-date {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 20px;
+
+}
+
+.weather-icon {
+    width: 80px;
+    margin-top: 12px;
+    margin-left: 10px;
+}
+
+.info-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    list-style: none;
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+}
+.info-item{
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.temp-container {
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.temp{
+    font-size: 60px;
 }

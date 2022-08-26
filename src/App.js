@@ -36,7 +36,7 @@ function App() {
   let weatherApiCall = () => {
     try {
       fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${selectedCity.lat}&lon=${selectedCity.lon}&units=metric&appid=${WEATHER_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${selectedCity.lat}&lon=${selectedCity.lon}&units=metric&appid=${WEATHER_API_KEY}`
       )
         .then((response) => response.json())
         .then((data) => {

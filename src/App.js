@@ -126,6 +126,7 @@ function App() {
     if (apiLoadDone) {
       fiveDaysForecastAssembler(selectedCity.weatherApiData.list.length);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiLoad, apiLoadDone]);
 
   return (

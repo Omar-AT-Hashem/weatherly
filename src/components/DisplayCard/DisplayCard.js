@@ -3,7 +3,7 @@ import "./DisplayCard.css";
 const DisplayCard = (props) => {
   let { day, date, temp, feelsLike, humidity, weather, icon } = props;
   temp = Math.floor(temp);
-  feelsLike = Math.floor(feelsLike);
+  feelsLike = Math.ceil(feelsLike);
   return (
     <div className="display-card">
       <div className="icon-day-date-container">

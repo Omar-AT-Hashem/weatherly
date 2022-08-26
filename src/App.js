@@ -130,7 +130,7 @@ function App() {
   }, [apiLoad, apiLoadDone]);
 
   return (
-    <>
+    <div className="container">
       <Header />
       <div className="container">
         <SearchBar onCitySelect={handleCitySelect} />
@@ -142,7 +142,7 @@ function App() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

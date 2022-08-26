@@ -77,23 +77,8 @@
     .search-container{
         height: auto;
         width: auto;
-        margin: 20px auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
     .search-bar {
-        width: 600px;
-        height: 40px;
-        border-radius: 20px;
-        font-size: 30px;
-        background-color: var(--secondary-color);
-        border: none;
-        outline: none;
-        padding: 20px;
-        color: var(--text-color);
-        box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+        width: 318px;
     }
 }

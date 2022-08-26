@@ -81,4 +81,16 @@
     .search-bar {
         width: 318px;
     }
+    .search-results {
+        height: auto;
+        background-color: var(--secondary-color);
+        top: 110%;
+        position: absolute;
+        z-index: 100;
+        width: 318px;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 20px;
+        border: 1px solid var(--main-color);
+    }
 }

@@ -15,4 +15,5 @@
 body{
   font-family: 'Nunito', sans-serif;
   background-color: var(--main-color);
+  width: 100vw;
 }

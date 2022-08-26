@@ -10,6 +10,7 @@ function App() {
   let [fiveDaysForecast, setFiveDaysForecast] = useState([]);
   let [apiLoad, setApiLoad] = useState(false);
   let [apiLoadDone, setApiLoadDone] = useState(false);
+  let [waiting, setWaiting] = useState(true);
 
   let days = [
     "Sunday",
@@ -45,6 +46,7 @@ function App() {
           console.log(data);
           setApiLoad(false);
           setApiLoadDone(true);
+          setWaiting(false);
         });
     } catch (err) {
       console.log(err);
@@ -131,8 +133,16 @@ function App() {
   return (
     <>
       <Header />
-      <SearchBar onCitySelect={handleCitySelect} />
-      <div className="display-cards-container">{displayCardsGenerator()}</div>
+      <div className="container">
+        <SearchBar onCitySelect={handleCitySelect} />
+        {waiting ? (
+          <div className="waiting">What might the weather be?</div>
+        ) : (
+          <div className="display-cards-container">
+            {displayCardsGenerator()}
+          </div>
+        )}
+      </div>
     </>
   );
 }

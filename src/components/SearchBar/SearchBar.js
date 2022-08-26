@@ -6,7 +6,6 @@ import "./SearchBar.css";
 const SearchBar = ({ onCitySelect }) => {
   let [currentSearch, setCurrentSearch] = useState("");
   let [currentSearchResults, setCurrentSearchResult] = useState([]);
-  let [apiLoad, setApiLoad] = useState(false);
   let [apiLoadDone, setApiLoadDone] = useState(false);
 
   //search results markup + sends the city and country code of
@@ -54,7 +53,6 @@ const SearchBar = ({ onCitySelect }) => {
               )
             );
             setApiLoadDone(true);
-            setApiLoad(false);
           })
           .catch((err) => console.error(err));
       };
@@ -78,14 +76,11 @@ const SearchBar = ({ onCitySelect }) => {
         value={currentSearch}
         onChange={(e) => {
           setCurrentSearch(e.target.value);
-          setApiLoad(true);
           setApiLoadDone(false);
         }}
       />
-      {currentSearchResults && currentSearch && apiLoadDone ? (
+      {currentSearchResults && currentSearch && apiLoadDone && (
         <div className="search-results">{displayCurrentSearchResults()}</div>
-      ) : (
-        <div className="waiting">What might the weather be?</div>
       )}
     </div>
   );

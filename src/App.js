@@ -43,7 +43,6 @@ function App() {
           setSelectedCity((prevSelectedCity) => {
             return { ...prevSelectedCity, weatherApiData: data };
           });
-          console.log(data);
           setApiLoad(false);
           setApiLoadDone(true);
           setWaiting(false);
@@ -98,7 +97,6 @@ function App() {
     }
     setFiveDaysForecast(arrayOfDays);
   };
-  console.log(fiveDaysForecast);
 
   let displayCardsGenerator = () => {
     let displayCardKey = 10000;

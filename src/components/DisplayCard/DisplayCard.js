@@ -1,7 +1,7 @@
 import "./DisplayCard.css";
 
 const DisplayCard = (props) => {
-  let { day, time, date, temp, feelsLike, humidity, weather, icon } = props;
+  let { day, date, temp, feelsLike, humidity, weather, icon } = props;
   temp = Math.floor(temp);
   feelsLike = Math.floor(feelsLike);
   return (

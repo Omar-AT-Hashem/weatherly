@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { WEATHER_API_KEY } from "./api.js";
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -12,7 +12,9 @@ function App() {
   let [apiLoadDone, setApiLoadDone] = useState(false);
   let [waiting, setWaiting] = useState(true);
 
-  let days = [
+  let days = useMemo( () => {
+    return (
+    [
     "Sunday",
     "Monday",
     "Tuesday",
@@ -20,9 +22,10 @@ function App() {
     "Thursday",
     "Friday",
     "Saturday",
-  ];
+  ])}
+  ,[])
 
-  let handleCitySelect = (city, countryCode, lat, lon) => {
+  let handleCitySelect = useCallback((city, countryCode, lat, lon) => {
     setSelectedCity({
       city: city,
       countryCode: countryCode,
@@ -31,9 +34,10 @@ function App() {
     });
     setApiLoad(true);
     setApiLoadDone(false);
-  };
+  }
+  ,[])
 
-  let weatherApiCall = () => {
+  let weatherApiCall = useCallback(() => {
     try {
       fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${selectedCity.lat}&lon=${selectedCity.lon}&units=metric&appid=${WEATHER_API_KEY}`
@@ -50,13 +54,14 @@ function App() {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [selectedCity.lat, selectedCity.lon])
 
-  let fiveDaysForecastAssembler = (arrayLenght) => {
+  let fiveDaysForecastAssembler = useCallback((selectedCity) => {
     let arrayOfDays = [];
     let today = "";
+    let arrayLength = selectedCity.weatherApiData.list.length
 
-    for (let i = 0; i < arrayLenght; i++) {
+    for (let i = 0; i < arrayLength; i++) {
       let info = selectedCity.weatherApiData.list[i];
       let date = new Date(info.dt_txt.split(" ")[0]);
       let day = date.getDay();
@@ -96,7 +101,7 @@ function App() {
       }
     }
     setFiveDaysForecast(arrayOfDays);
-  };
+  },[days])
 
   let displayCardsGenerator = () => {
     let displayCardKey = 10000;
@@ -120,14 +125,16 @@ function App() {
   };
 
   useEffect(() => {
+    
     if (apiLoad) {
       weatherApiCall();
     }
     if (apiLoadDone) {
-      fiveDaysForecastAssembler(selectedCity.weatherApiData.list.length);
+      fiveDaysForecastAssembler(selectedCity);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiLoad, apiLoadDone]);
+    
+  }, [ apiLoad,apiLoadDone, fiveDaysForecastAssembler, 
+    weatherApiCall, selectedCity]);
 
   return (
     <div className="container">

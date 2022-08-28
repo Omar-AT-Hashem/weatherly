@@ -14,7 +14,7 @@ const SearchBar = ({ onCitySelect }) => {
     return currentSearchResults.map((element) => {
       return (
         <div
-          key={element.city}
+          key={`${element.latitude} ${element.city}`}
           className="result"
           data-city={element.city}
           data-country-code={element.countryCode}
@@ -58,7 +58,6 @@ const SearchBar = ({ onCitySelect }) => {
       };
       const geoApiDelay = setTimeout(() => {
         callGeoApi();
-        console.log("call");
       }, 600);
       setCurrentSearchResult([]);
 
